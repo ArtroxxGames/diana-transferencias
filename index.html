@@ -1,132 +1,595 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Transferencias - Diana Martínez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferencias Bancarias - Diana Martínez</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      display: flex;
-      flex-direction: row;
-      gap: 2rem;
-      max-width: 1200px;
-      padding: 2rem;
-    }
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --surface-light: #ffffff;
+            --surface-dark: #f8fafc;
+            --text-primary: #1a202c;
+            --text-secondary: #64748b;
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-large: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .left-text {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      font-size: 4rem;
-      font-weight: 900;
-      color: #444;
-      position: relative;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
 
-    .left-text::before {
-      content: "TRANSFERENCIAS";
-      position: absolute;
-      left: 10px;
-      top: 0;
-      font-size: 4rem;
-      font-weight: 900;
-      color: #eee;
-      z-index: -1;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    .cards {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
 
-    .card {
-      width: 360px;
-      border-radius: 1rem;
-      padding: 1.5rem;
-      color: #fff;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
 
-    .sudameris {
-      background-color: #d8001f;
-    }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
 
-    .universitaria {
-      background-color: #fff;
-      color: #2a5344;
-      border: 1px solid #e0e0e0;
-    }
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
 
-    .familiar {
-      background-color: #03236e;
-    }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
 
-    .card h2 {
-      margin: 0 0 1rem 0;
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
+        .bank-card {
+            background: var(--surface-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    .card p {
-      margin: 0.3rem 0;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
+        .bank-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-large);
+        }
 
-    .universitaria h2 {
-      color: #057c58;
-    }
+        .bank-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--bank-color, var(--primary-gradient));
+        }
 
-    .logo {
-      margin-bottom: 0.5rem;
-    }
+        .bank-card.sudameris {
+            --bank-color: #d8001f;
+        }
 
-    .logo img {
-      height: 30px;
-    }
-  </style>
+        .bank-card.universitaria {
+            --bank-color: #057c58;
+        }
+
+        .bank-card.familiar {
+            --bank-color: #03236e;
+        }
+
+        .bank-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .bank-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .bank-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            background: var(--bank-color, var(--primary-gradient));
+        }
+
+        .bank-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .copy-all-btn {
+            background: transparent;
+            border: 2px solid var(--bank-color, #667eea);
+            color: var(--bank-color, #667eea);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-all-btn:hover {
+            background: var(--bank-color, #667eea);
+            color: white;
+        }
+
+        .account-holder {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .account-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: var(--surface-dark);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .detail-item:hover {
+            background: #e2e8f0;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .copy-btn:hover {
+            color: var(--bank-color, #667eea);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .copy-btn.copied {
+            color: #10b981;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            color: #667eea;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-medium);
+            transform: translateX(400px);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .bank-card {
+                padding: 1.5rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bank-card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .bank-card:nth-child(1) { animation-delay: 0.1s; }
+        .bank-card:nth-child(2) { animation-delay: 0.2s; }
+        .bank-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="left-text">TRANSFERENCIAS</div>
-    <div class="cards">
+    <div class="container">
+        <header class="header">
+            <h1>Información Bancaria</h1>
+            <p class="subtitle">Datos para transferencias a Diana Martínez</p>
+        </header>
 
-      <div class="card sudameris">
-        <h2>SUDAMERIS</h2>
-        <h2>DIANA MARTÍNEZ</h2>
-        <p><strong>Cédula N°</strong> | 5.201.551</p>
-        <p><strong>Alias</strong> | +595991990520</p>
-        <p><strong>Caja de Ahorro</strong> | 5356217</p>
-      </div>
+        <div class="cards-grid">
+            <!-- Banco Sudameris -->
+            <div class="bank-card sudameris">
+                <div class="bank-header">
+                    <div class="bank-logo">
+                        <div class="bank-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="bank-name">SUDAMERIS</div>
+                    </div>
+                    <button class="copy-all-btn" onclick="copyAllBankData('sudameris')">
+                        <i class="fas fa-copy"></i>
+                        Copiar todo
+                    </button>
+                </div>
+                
+                <div class="account-holder">DIANA MARTÍNEZ</div>
+                
+                <div class="account-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Cédula N°</span>
+                        <div class="detail-value">
+                            5.201.551
+                            <button class="copy-btn" onclick="copyToClipboard('5.201.551', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Alias</span>
+                        <div class="detail-value">
+                            +595991990520
+                            <button class="copy-btn" onclick="copyToClipboard('+595991990520', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Caja de Ahorro</span>
+                        <div class="detail-value">
+                            5356217
+                            <button class="copy-btn" onclick="copyToClipboard('5356217', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      <div class="card universitaria">
-        <div class="logo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Logo_Cooperativa_Universitaria.png" alt="Cooperativa Universitaria">
+            <!-- Cooperativa Universitaria -->
+            <div class="bank-card universitaria">
+                <div class="bank-header">
+                    <div class="bank-logo">
+                        <div class="bank-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="bank-name">COOPERATIVA UNIVERSITARIA</div>
+                    </div>
+                    <button class="copy-all-btn" onclick="copyAllBankData('universitaria')">
+                        <i class="fas fa-copy"></i>
+                        Copiar todo
+                    </button>
+                </div>
+                
+                <div class="account-holder">DIANA MARTÍNEZ</div>
+                
+                <div class="account-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Cédula N°</span>
+                        <div class="detail-value">
+                            5.201.551
+                            <button class="copy-btn" onclick="copyToClipboard('5.201.551', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Alias RUC</span>
+                        <div class="detail-value">
+                            5.201.551-3
+                            <button class="copy-btn" onclick="copyToClipboard('5.201.551-3', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Caja de Ahorro</span>
+                        <div class="detail-value">
+                            441726
+                            <button class="copy-btn" onclick="copyToClipboard('441726', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banco Familiar -->
+            <div class="bank-card familiar">
+                <div class="bank-header">
+                    <div class="bank-logo">
+                        <div class="bank-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="bank-name">BANCO FAMILIAR</div>
+                    </div>
+                    <button class="copy-all-btn" onclick="copyAllBankData('familiar')">
+                        <i class="fas fa-copy"></i>
+                        Copiar todo
+                    </button>
+                </div>
+                
+                <div class="account-holder">DIANA MARTÍNEZ</div>
+                
+                <div class="account-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Cédula N°</span>
+                        <div class="detail-value">
+                            5.201.551
+                            <button class="copy-btn" onclick="copyToClipboard('5.201.551', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Cuenta Corriente N°</span>
+                        <div class="detail-value">
+                            3-7627902
+                            <button class="copy-btn" onclick="copyToClipboard('3-7627902', this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h2>DIANA MARTÍNEZ</h2>
-        <p><strong>Cédula N°</strong> | 5.201.551</p>
-        <p><strong>Alias RUC</strong> | 5.201.551-3</p>
-        <p><strong>Caja de Ahorro</strong> | 441726</p>
-      </div>
 
-      <div class="card familiar">
-        <h2>BANCO FAMILIAR</h2>
-        <h2>DIANA MARTÍNEZ</h2>
-        <p><strong>Cédula N°</strong> | 5.201.551</p>
-        <p><strong>Cuenta Corriente N°</strong> | 3-7627902</p>
-      </div>
-
+        <footer class="footer">
+            <p class="footer-text">Selecciona la cuenta de tu preferencia para realizar la transferencia</p>
+            <div class="contact-info">
+                <a href="tel:+595991990520" class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    +595 991 990 520
+                </a>
+                <a href="mailto:diana@example.com" class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    Contacto por email
+                </a>
+            </div>
+        </footer>
     </div>
-  </div>
+
+    <div id="toast" class="toast">
+        <i class="fas fa-check"></i>
+        <span id="toast-message">Copiado al portapapeles</span>
+    </div>
+
+    <script>
+        // Función para copiar texto al portapapeles
+        async function copyToClipboard(text, button) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showCopySuccess(button);
+                showToast(`Copiado: ${text}`);
+            } catch (err) {
+                // Fallback para navegadores que no soportan clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccess(button);
+                showToast(`Copiado: ${text}`);
+            }
+        }
+
+        // Función para copiar todos los datos de un banco
+        function copyAllBankData(bankType) {
+            const bankData = {
+                sudameris: `BANCO SUDAMERIS
+DIANA MARTÍNEZ
+Cédula N°: 5.201.551
+Alias: +595991990520
+Caja de Ahorro: 5356217`,
+                universitaria: `COOPERATIVA UNIVERSITARIA
+DIANA MARTÍNEZ
+Cédula N°: 5.201.551
+Alias RUC: 5.201.551-3
+Caja de Ahorro: 441726`,
+                familiar: `BANCO FAMILIAR
+DIANA MARTÍNEZ
+Cédula N°: 5.201.551
+Cuenta Corriente N°: 3-7627902`
+            };
+
+            const button = document.querySelector(`.${bankType} .copy-all-btn`);
+            copyToClipboard(bankData[bankType], button);
+        }
+
+        // Mostrar éxito visual en el botón
+        function showCopySuccess(button) {
+            const icon = button.querySelector('i');
+            const originalClass = icon.className;
+            
+            icon.className = 'fas fa-check';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        // Mostrar toast de confirmación
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Animación suave al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.bank-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
 </body>
 </html>
